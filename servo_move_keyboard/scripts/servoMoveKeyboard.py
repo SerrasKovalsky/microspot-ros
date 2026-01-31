@@ -192,7 +192,7 @@ class SpotMicroServoControl():
         
         while not rospy.is_shutdown():
             print(msg)
-            userInput = raw_input("Command?: ")
+            userInput = int(input('Which servo to control? Enter a number 1 through 12: '))
 
             if userInput not in validCmds:
                 print('Valid command not entered, try again...')
