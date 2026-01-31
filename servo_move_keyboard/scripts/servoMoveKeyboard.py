@@ -230,7 +230,7 @@ class SpotMicroServoControl():
                         if userInput == 'q':
                             break
                         elif userInput not in keyDict:
-                            print('Key not in valid key commands, try again')
+                            print('Key not in valid key commands: received %r (ord=%d), try again' % (userInput, ord(userInput)))
                         else:
                             keyDict[userInput](self.servos[nSrv])
                             print('Servo %2i cmd: %4i'%(nSrv,self.servos[nSrv].value))
