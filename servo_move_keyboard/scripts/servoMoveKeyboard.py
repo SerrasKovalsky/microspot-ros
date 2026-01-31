@@ -73,8 +73,8 @@ class ServoConvert():
     def __init__(self, id=1, center_value=306, direction=1):
         self.value      = center_value
         self._center    = center_value
-        self._min       = 83
-        self._max       = 520
+        self._min       = 158  # ~0.77ms pulse - safe minimum for standard servos
+        self._max       = 450  # ~2.2ms pulse - safe maximum for standard servos
         self._dir       = direction
         self.id         = id
 
