@@ -195,7 +195,7 @@ class SpotMicroServoControl():
             userInput = int(input('Which servo to control? Enter a number 1 through 12: '))
 
             if userInput not in validCmds:
-                print('Valid command not entered, try again...')
+                print('Valid command not entered, try again.../n you used {userInput}')
             else:
                 if userInput == 'quit':
                     print("Ending program...")
