@@ -34,4 +34,13 @@ link_directories(/usr/lib/arm-linux-gnueabihf /usr/lib/x86_64-linux-gnu /usr/lib
   echo "Patched: $CMAKE (link_directories + link i2c)"
 fi
 
+# 3) i2c_smbus_* are static inline in headers; need -O2 so they are inlined (else undefined reference at link)
+if ! grep -q 'target_compile_options.*i2cpwm_board.*-O' "$CMAKE"; then
+  sed -i.bak '/add_executable(i2cpwm_board/a\
+target_compile_options(i2cpwm_board PRIVATE -O2)
+' "$CMAKE"
+  rm -f "${CMAKE}.bak"
+  echo "Patched: $CMAKE (add -O2 for i2c_smbus inlines)"
+fi
+
 echo "Done. If link still fails, install: sudo apt-get install libi2c-dev"
