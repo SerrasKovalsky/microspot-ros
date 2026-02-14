@@ -95,11 +95,13 @@ make[2]: *** [ros-i2cpwmboard/CMakeFiles/i2cpwm_board.dir/src/i2cpwm_controller.
 CMakeFiles/Makefile2:2343: recipe for target 'ros-i2cpwmboard/CMakeFiles/i2cpwm_board.dir/all' failed
 ```
 
-If you see **`i2c_smbus_read_byte_data` / `i2c_smbus_write_byte_data` was not declared in this scope** when building `ros-i2cpwmboard` (e.g. on Ubuntu ARM or Magni), install the I2C library and apply the patch, then rebuild:
+If you see **`i2c_smbus_*` was not declared** or **undefined reference to `i2c_smbus_*`** when building `ros-i2cpwmboard` (e.g. on Ubuntu ARM or Magni), install the I2C library, run the patch script, then rebuild:
 ```bash
 sudo apt-get install libi2c-dev
 ./scripts/patch_ros_i2cpwmboard.sh   # from repo root; patches ros-i2cpwmboard submodule
-cd ~/catkin_ws && catkin_make
+cd ~/catkin_ws
+rm -rf build/microspot-ros/ros-i2cpwmboard devel/lib/i2cpwm_board   # force reconfigure/link
+catkin_make
 ```
 
 #### Note on Walking Gaits
