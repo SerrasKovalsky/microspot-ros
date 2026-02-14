@@ -95,6 +95,13 @@ make[2]: *** [ros-i2cpwmboard/CMakeFiles/i2cpwm_board.dir/src/i2cpwm_controller.
 CMakeFiles/Makefile2:2343: recipe for target 'ros-i2cpwmboard/CMakeFiles/i2cpwm_board.dir/all' failed
 ```
 
+If you see **`i2c_smbus_read_byte_data` / `i2c_smbus_write_byte_data` was not declared in this scope** when building `ros-i2cpwmboard` (e.g. on Ubuntu ARM or Magni), install the I2C library and apply the patch, then rebuild:
+```bash
+sudo apt-get install libi2c-dev
+./scripts/patch_ros_i2cpwmboard.sh   # from repo root; patches ros-i2cpwmboard submodule
+cd ~/catkin_ws && catkin_make
+```
+
 #### Note on Walking Gaits
 The default gait implemented is a 8 phase gait that incorporates body movement which helps maintain balance and stability. An alternate trot gait, where the diagonally opposite legs move simultaneously, can achieve faster walking speeds, but is less stable and requires careful positioning of the robot's center of mass. The trot gait is the one depicted in the animation at the top of this document. See the `spot_micro_motion_cmd` node's config file for information on how to switch to the trot gait. The 8 phase gait can be observed in the linked Youtube video.
 
