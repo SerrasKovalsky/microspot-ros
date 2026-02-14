@@ -49,6 +49,45 @@ Servos must be connected in the following order to the PCA 9685 control board:
 11. Left front shoulder
 12. left front hip
 
+### Servo Mapping Reference
+
+| PCA9685 Port | Config Name | Leg | Joint |
+|--------------|-------------|-----|-------|
+| 1 | RF_3 | Right Front | Knee |
+| 2 | RF_2 | Right Front | Shoulder |
+| 3 | RF_1 | Right Front | Hip |
+| 4 | RB_3 | Right Back | Knee |
+| 5 | RB_2 | Right Back | Shoulder |
+| 6 | RB_1 | Right Back | Hip |
+| 7 | LB_3 | Left Back | Knee |
+| 8 | LB_2 | Left Back | Shoulder |
+| 9 | LB_1 | Left Back | Hip |
+| 10 | LF_3 | Left Front | Knee |
+| 11 | LF_2 | Left Front | Shoulder |
+| 12 | LF_1 | Left Front | Hip |
+
+**Visual layout (top view):**
+```
+          FRONT
+    ┌───────────────┐
+    │  LF      RF   │
+    │ 10,11,12  1,2,3│
+    │               │
+    │  LB      RB   │
+    │ 7,8,9    4,5,6│
+    └───────────────┘
+          REAR
+```
+
+**Naming convention:**
+- **R/L** = Right/Left side
+- **F/B** = Front/Back leg
+- **1** = Hip joint (rotates leg left/right)
+- **2** = Shoulder joint (upper leg)
+- **3** = Knee joint (lower leg)
+
+For low power-on current, place the robot in a **lie-down/sitting** pose before powering on; the motion node starts in Idle and commands this stance, so servos do not have to move much at startup.
+
 It is reccomended to install servos in the spot micro frame when they are powered and commanded to their center position. The joint which a servo is installed in should be approximately positioned at it's "nuetral" stance, the position about which most leg motion will occur. This ensures maximum servo travel will be available around the typical joint command angles. The two figures below roughly depict the joint orientations for which servo's should be installed when at their center position. 
 
 ![Side View Neutral Positions](../assets/1_robot_right_links.png)

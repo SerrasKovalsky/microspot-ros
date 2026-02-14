@@ -25,8 +25,11 @@ void SpotMicroIdleState::handleInputCommands(const smk::BodyState& body_state,
     changeState(smmc, std::make_unique<SpotMicroTransitionStandState>());
   
   } else {
-    // Otherwise, just command idle servo commands
-    smmc->publishZeroServoAbsoluteCommand();
+    // Hold lie-down stance (low, relaxed pose) to avoid high current spike
+    // when transitioning to stand. PWM 0 (freewheel) would cause all servos
+    // to drive at once on stand command.
+    smmc->setServoCommandMessageData();
+    smmc->publishServoProportionalCommand();
   }
 
 }

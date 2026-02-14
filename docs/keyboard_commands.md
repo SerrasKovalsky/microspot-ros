@@ -9,6 +9,8 @@ Use the `spot_micro_keyboard_command` node for controlling robot motion (walking
 ### Launch
 ```bash
 roslaunch spot_micro_keyboard_command keyboard_command.launch
+roslaunch servo_move_keyboard keyboard_move.launch
+rosrun i2cpwm_board i2cpwm_board
 ```
 
 ### Mode Commands
@@ -114,6 +116,15 @@ Type these commands at the prompt and press Enter:
 - Default maximum: ~450 (~2.2ms pulse)
 
 ---
+
+## Startup position and power
+
+At startup the motion node is in **Idle** and commands the **lie-down** stance (low, relaxed pose) to all servos. This:
+
+- Avoids a large current spike when you later give `stand`: the transition is from lie-down → stand (smooth) instead of from freewheel/unknown → stand (all servos driving at once).
+- Keeps power use moderate: servos hold a compact pose instead of standing.
+
+If you see very high current on startup, ensure the robot is roughly in a **lie-down/sitting** pose before powering on, so the commanded pose matches the physical pose and servos do not have to move much.
 
 ## General Notes
 
