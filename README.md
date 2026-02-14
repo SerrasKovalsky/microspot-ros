@@ -98,7 +98,7 @@ CMakeFiles/Makefile2:2343: recipe for target 'ros-i2cpwmboard/CMakeFiles/i2cpwm_
 If you see **`i2c_smbus_*` was not declared** or **undefined reference to `i2c_smbus_*`** when building `ros-i2cpwmboard` (e.g. on Ubuntu ARM or Magni), install the I2C library, run the patch script, then rebuild:
 ```bash
 sudo apt-get install libi2c-dev
-./scripts/patch_ros_i2cpwmboard.sh   # from repo root; patches ros-i2cpwmboard submodule
+chmod +x scripts/patch_ros_i2cpwmboard.sh && ./scripts/patch_ros_i2cpwmboard.sh   # from repo root
 cd ~/catkin_ws
 rm -rf build/microspot-ros/ros-i2cpwmboard devel/lib/i2cpwm_board   # force reconfigure/link
 catkin_make
