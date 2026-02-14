@@ -24,7 +24,7 @@ fi
 # 2) Ensure CMake finds and links libi2c (fixes undefined reference at link)
 if ! grep -q 'find_library.*I2C_LIB' "$CMAKE"; then
   sed -i.bak '/^link_directories(/a\
-find_library(I2C_LIB NAMES i2c)\
+find_library(I2C_LIB NAMES i2c PATHS /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE} /usr/lib)\
 if(NOT I2C_LIB)\
   message(FATAL_ERROR "libi2c not found. Install: sudo apt-get install libi2c-dev")\
 endif()
@@ -32,6 +32,11 @@ endif()
   sed -i.bak2 's| i2c)| ${I2C_LIB})|' "$CMAKE"
   rm -f "${CMAKE}.bak" "${CMAKE}.bak2"
   echo "Patched: $CMAKE (find_library + link libi2c)"
+elif ! grep -q 'PATHS.*CMAKE_LIBRARY_ARCHITECTURE' "$CMAKE"; then
+  # Already patched but without PATHS; add multiarch path so ARM finds libi2c
+  sed -i.bak 's|find_library(I2C_LIB NAMES i2c)|find_library(I2C_LIB NAMES i2c PATHS /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE} /usr/lib)|' "$CMAKE"
+  rm -f "${CMAKE}.bak"
+  echo "Patched: $CMAKE (added PATHS for multiarch libi2c)"
 fi
 
 echo "Done. If link still fails, install: sudo apt-get install libi2c-dev"
