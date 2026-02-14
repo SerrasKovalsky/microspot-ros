@@ -206,8 +206,8 @@ International Journal of Scientific & Technology Research. 6.`
 * Spot micro URDF model copied and modified from Florian Wilk's repo
     * https://gitlab.com/custom_robots/spotmicroai/simulation/-/tree/master/Basic%20simulation%20by%20user%20Florian%20Wilk
 * List of submodules utilized:
-    * ros-i2cpwmboard by bradanlane for PCA9685 support
-        * https://gitlab.com/bradanlane/ros-i2cpwmboard
+    * ros-i2cpwmboard (GitHub fork for PCA9685 support; original by bradanlane)
+        * https://github.com/mentor-dyun/ros-i2cpwmboard
     * spot_micro_kinematics_python by me :) for python spot micro kinematic calculations:
         * https://github.com/mike4192/spot_micro_kinematics_python 
     * spot_micro_kinematics_cpp by me :) for c++ spot micro kinematic calculations:
