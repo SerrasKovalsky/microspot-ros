@@ -34,13 +34,26 @@ link_directories(/usr/lib/arm-linux-gnueabihf /usr/lib/x86_64-linux-gnu /usr/lib
   echo "Patched: $CMAKE (link_directories + link i2c)"
 fi
 
-# 3) i2c_smbus_* are static inline in headers; need -O2 so they are inlined (else undefined reference at link)
+# 3) i2c_smbus_* are static inline on some systems; -O2 helps inlining
 if ! grep -q 'target_compile_options.*i2cpwm_board.*-O' "$CMAKE"; then
   sed -i.bak '/add_executable(i2cpwm_board/a\
 target_compile_options(i2cpwm_board PRIVATE -O2)
 ' "$CMAKE"
   rm -f "${CMAKE}.bak"
-  echo "Patched: $CMAKE (add -O2 for i2c_smbus inlines)"
+  echo "Patched: $CMAKE (add -O2)"
 fi
 
-echo "Done. If link still fails, install: sudo apt-get install libi2c-dev"
+# 4) Link libi2c by full path so linker finds it (catkin may not pass link_directories to this target)
+if grep -q 'target_link_libraries(i2cpwm_board.*i2c)' "$CMAKE" && \
+   [ -f /usr/lib/arm-linux-gnueabihf/libi2c.so ] 2>/dev/null || [ -f /usr/lib/x86_64-linux-gnu/libi2c.so ] 2>/dev/null; then
+  if [ -f /usr/lib/arm-linux-gnueabihf/libi2c.so ] 2>/dev/null; then
+    I2C_SO="/usr/lib/arm-linux-gnueabihf/libi2c.so"
+  else
+    I2C_SO="/usr/lib/x86_64-linux-gnu/libi2c.so"
+  fi
+  sed -i.bak "s| i2c)| ${I2C_SO})|" "$CMAKE"
+  rm -f "${CMAKE}.bak"
+  echo "Patched: $CMAKE (link libi2c by path: $I2C_SO)"
+fi
+
+echo "Done."
